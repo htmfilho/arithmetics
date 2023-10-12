@@ -89,37 +89,19 @@ public class Token<T> {
         return tokens;
     }
 
-    /*public static Token createToken(String expression) {
-        if (Token.isSymbol(expression)) return createSymbolToken(lexeme);
-
-        return null;
-    }
-
-    public static Token<Character> createSymbolToken(char[] lexeme) {
-        while (pos < lexeme.le)
-    }*/
-
-    public static boolean isNumber(String token) {
-        if (token == null) {
-            return false;
-        }
-        token = token.trim();
-        return numberPattern.matcher(token).matches();
-    }
-
-    public static boolean isSymbol(String token) {
-        if (token == null) {
+    public static boolean isSymbol(String lexeme) {
+        if (lexeme == null) {
             return false;
         }
 
-        token = token.trim();
+        lexeme = lexeme.trim();
 
-        if(token.length() != 1) {
+        if(lexeme.length() != 1) {
             return false;
         }
 
         for (Character s: symbols) {
-            if (s.equals(token.toCharArray()[0])) {
+            if (s.equals(lexeme.toCharArray()[0])) {
                 return true;
             }
         }
@@ -127,11 +109,20 @@ public class Token<T> {
         return false;
     }
 
-    public static boolean isVariable(String token) {
-        if (token == null) {
+    public static boolean isNumber(String lexeme) {
+        if (lexeme == null) {
             return false;
         }
-        token = token.trim();
-        return variablePattern.matcher(token).matches();
+
+        lexeme = lexeme.trim();
+        return numberPattern.matcher(lexeme).matches();
+    }
+
+    public static boolean isVariable(String lexeme) {
+        if (lexeme == null) {
+            return false;
+        }
+        lexeme = lexeme.trim();
+        return variablePattern.matcher(lexeme).matches();
     }
 }

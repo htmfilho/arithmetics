@@ -2,9 +2,6 @@ package com.sqbrains.arithmetic;
 
 import org.junit.jupiter.api.Test;
 
-import com.sqbrains.arithmetic.Token;
-import com.sqbrains.arithmetic.UnrecognizedTokenException;
-
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
