@@ -10,7 +10,7 @@ public class Token<T> {
 
     private static Character[] symbols = {'*', '/', '+', '-', '(', ')'};
     private static final Pattern numberPattern = Pattern.compile("\\d+(\\.\\d*)?");
-    private static final Pattern variablePattern = Pattern.compile("[a-zA-Z]+(_?[0-9a-zA-Z])*");
+    private static final Pattern identifierPattern = Pattern.compile("[a-zA-Z]+(_?[0-9a-zA-Z])*");
 
     private T lexeme;
 
@@ -29,7 +29,7 @@ public class Token<T> {
 
         Token<Float> numberToken = null;
         Token<Character> symbolToken = null;
-        Token<String> variableToken = null;
+        Token<String> identifierToken = null;
         int pos = 0;
 
         while (pos < cExpression.length) {
@@ -61,15 +61,15 @@ public class Token<T> {
                 lexeme = new StringBuilder();
             }
 
-            if (Token.isVariable(lexeme.toString())) {
-                if (variableToken == null)
-                    variableToken = new Token<>();
+            if (Token.isIdentifier(lexeme.toString())) {
+                if (identifierToken == null)
+                    identifierToken = new Token<>();
 
-                variableToken.lexeme = lexeme.toString();
+                identifierToken.lexeme = lexeme.toString();
                 pos++;
-            } else if (variableToken != null) {
-                tokens.add(variableToken);
-                variableToken = null;
+            } else if (identifierToken != null) {
+                tokens.add(identifierToken);
+                identifierToken = null;
                 lexeme = new StringBuilder();
             }
 
@@ -83,8 +83,8 @@ public class Token<T> {
         if (numberToken != null) 
             tokens.add(numberToken);
         
-        if (variableToken != null) 
-            tokens.add(variableToken);
+        if (identifierToken != null) 
+            tokens.add(identifierToken);
 
         return tokens;
     }
@@ -118,11 +118,11 @@ public class Token<T> {
         return numberPattern.matcher(lexeme).matches();
     }
 
-    public static boolean isVariable(String lexeme) {
+    public static boolean isIdentifier(String lexeme) {
         if (lexeme == null) {
             return false;
         }
         lexeme = lexeme.trim();
-        return variablePattern.matcher(lexeme).matches();
+        return identifierPattern.matcher(lexeme).matches();
     }
 }

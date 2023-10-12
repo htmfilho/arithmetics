@@ -81,14 +81,14 @@ class TokenTest {
 
     @Test
     void isVariable() {
-        assertTrue(Token.isVariable("score_1"));
+        assertTrue(Token.isIdentifier("score_1"));
 
-        assertFalse(Token.isVariable(null));
-        assertFalse(Token.isVariable(""));
-        assertFalse(Token.isVariable("22.3"));
-        assertFalse(Token.isVariable("+"));
-        assertFalse(Token.isVariable("asd 1"));
-        assertFalse(Token.isVariable("asd_"));
-        assertFalse(Token.isVariable("asd+"));
+        assertFalse(Token.isIdentifier(null));
+        assertFalse(Token.isIdentifier(""));
+        assertFalse(Token.isIdentifier("22.3"));
+        assertFalse(Token.isIdentifier("+"));
+        assertFalse(Token.isIdentifier("asd 1"));
+        assertFalse(Token.isIdentifier("asd_"));
+        assertFalse(Token.isIdentifier("asd+"));
     }
 }
