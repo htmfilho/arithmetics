@@ -1,4 +1,4 @@
-package com.hildeberto.arithmetic;
+package com.sqbrains.arithmetic;
 
 public class UnrecognizedTokenException extends RuntimeException {
 

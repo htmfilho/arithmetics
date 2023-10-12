@@ -1,4 +1,4 @@
-package com.hildeberto.arithmetic;
+package com.sqbrains.arithmetic;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,10 +12,10 @@ public class Token<T> {
     private static final Pattern numberPattern = Pattern.compile("\\d+(\\.\\d*)?");
     private static final Pattern variablePattern = Pattern.compile("[a-zA-Z]+(_?[0-9a-zA-Z])*");
 
-    private T value;
+    private T lexeme;
 
-    public T getValue() {
-        return value;
+    public T getLexeme() {
+        return lexeme;
     }
 
     public static List<Token> tokenize(String expression) {
@@ -25,7 +25,7 @@ public class Token<T> {
 
         List<Token> tokens = new ArrayList<>();
         char[] cExpression = expression.toCharArray();
-        StringBuilder tokenValue = new StringBuilder();
+        StringBuilder lexeme = new StringBuilder();
 
         Token<Float> numberToken = null;
         Token<Character> symbolToken = null;
@@ -33,56 +33,71 @@ public class Token<T> {
         int pos = 0;
 
         while (pos < cExpression.length) {
-            tokenValue.append(cExpression[pos]);
+            lexeme.append(cExpression[pos]);
 
-            if (Token.isSymbol(tokenValue.toString())) {
+            if (Token.isSymbol(lexeme.toString())) {
                 if (symbolToken == null)
                     symbolToken = new Token<>();
 
-                symbolToken.value = tokenValue.charAt(0);
+                symbolToken.lexeme = lexeme.charAt(0);
                 pos++;
                 continue;
             } else if (symbolToken != null) {
                 tokens.add(symbolToken);
                 symbolToken = null;
-                tokenValue = new StringBuilder();
+                lexeme = new StringBuilder();
             }
 
-            if (Token.isNumber(tokenValue.toString())) {
+            if (Token.isNumber(lexeme.toString())) {
                 if (numberToken == null)
                     numberToken = new Token<>();
 
-                numberToken.value = Float.valueOf(tokenValue.toString());
+                numberToken.lexeme = Float.valueOf(lexeme.toString());
                 pos++;
                 continue;
             } else if (numberToken != null) {
                 tokens.add(numberToken);
                 numberToken = null;
-                tokenValue = new StringBuilder();
+                lexeme = new StringBuilder();
             }
 
-            if (Token.isVariable(tokenValue.toString())) {
+            if (Token.isVariable(lexeme.toString())) {
                 if (variableToken == null)
                     variableToken = new Token<>();
 
-                variableToken.value = tokenValue.toString();
+                variableToken.lexeme = lexeme.toString();
                 pos++;
             } else if (variableToken != null) {
                 tokens.add(variableToken);
                 variableToken = null;
-                tokenValue = new StringBuilder();
+                lexeme = new StringBuilder();
             }
 
-            if (tokenValue.length() > cExpression.length)
+            if (lexeme.length() > cExpression.length)
                 throw new UnrecognizedTokenException();
         }
 
-        if (symbolToken != null) tokens.add(symbolToken);
-        if (numberToken != null) tokens.add(numberToken);
-        if (variableToken != null) tokens.add(variableToken);
+        if (symbolToken != null) 
+            tokens.add(symbolToken);
+        
+        if (numberToken != null) 
+            tokens.add(numberToken);
+        
+        if (variableToken != null) 
+            tokens.add(variableToken);
 
         return tokens;
     }
+
+    /*public static Token createToken(String expression) {
+        if (Token.isSymbol(expression)) return createSymbolToken(lexeme);
+
+        return null;
+    }
+
+    public static Token<Character> createSymbolToken(char[] lexeme) {
+        while (pos < lexeme.le)
+    }*/
 
     public static boolean isNumber(String token) {
         if (token == null) {
