@@ -8,7 +8,11 @@ import java.util.regex.Pattern;
 public class Token<T> {
     private Token() {}
 
-    private static Character[] symbols = {'*', '/', '+', '-', '(', ')'};
+    private static final Character PARENTESIS_OPEN = '(';
+    private static final Character PARENTESIS_CLOSE = ')';
+    private static final Character NEGATIVE = '-';
+
+    private static Character[] symbols = {'*', '/', '+', NEGATIVE, PARENTESIS_OPEN, PARENTESIS_CLOSE};
     private static final Pattern numberPattern = Pattern.compile("\\d+(\\.\\d*)?");
     private static final Pattern identifierPattern = Pattern.compile("[a-zA-Z]+(_?[0-9a-zA-Z])*");
 
@@ -18,6 +22,34 @@ public class Token<T> {
         return lexeme;
     }
 
+    public boolean isNumber() {
+        return this.lexeme instanceof Float;
+    }
+
+    public boolean isIdentifier() {
+        return this.lexeme instanceof String;
+    }
+
+    public boolean isOperator() {
+        if (this.lexeme instanceof Character) {
+            return lexeme.equals('*') || lexeme.equals('/') || lexeme.equals('+') || lexeme.equals('-');
+        }
+        
+        return false;
+    }
+
+    public boolean isOpeningParentesis() {
+        return this.lexeme.equals(PARENTESIS_OPEN);
+    }
+
+    public boolean isClosingParentesis() {
+        return this.lexeme.equals(PARENTESIS_CLOSE);
+    }
+
+    public boolean isNegative() {
+        return this.lexeme.equals(NEGATIVE);
+    }
+ 
     public static List<Token> tokenize(String expression) {
         if (expression == null) {
             return Collections.emptyList();

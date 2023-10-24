@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TokenTest {
     @Test
-    void testTokenizeWithNoTokens() {
+    void testTokenize() {
         List<Token> tokens = Token.tokenize("2 * 8 + 3 / 4 - 5");
         assertEquals(9, tokens.size());
         assertEquals(2.0f, tokens.get(0).getLexeme());
@@ -48,7 +48,7 @@ class TokenTest {
     }
 
     @Test
-    void isNumber() {
+    void testIsNumber() {
         assertTrue(Token.isNumber("439"));
         assertTrue(Token.isNumber("0.439"));
         assertTrue(Token.isNumber("345."));
@@ -60,10 +60,13 @@ class TokenTest {
         assertFalse(Token.isNumber("123+"));
         assertFalse(Token.isNumber("123 +"));
         assertFalse(Token.isNumber("123qw"));
+
+        List<Token> tokens = Token.tokenize("6");
+        assertTrue(tokens.get(0).isNumber());
     }
 
     @Test
-    void isSymbol() {
+    void testIsSymbol() {
         assertTrue(Token.isSymbol("+"));
         assertTrue(Token.isSymbol("-"));
         assertTrue(Token.isSymbol("*"));
@@ -80,7 +83,7 @@ class TokenTest {
     }
 
     @Test
-    void isVariable() {
+    void testIsIdentifier() {
         assertTrue(Token.isIdentifier("score_1"));
 
         assertFalse(Token.isIdentifier(null));
@@ -90,5 +93,28 @@ class TokenTest {
         assertFalse(Token.isIdentifier("asd 1"));
         assertFalse(Token.isIdentifier("asd_"));
         assertFalse(Token.isIdentifier("asd+"));
+
+        List<Token> tokens = Token.tokenize("ty");
+        assertTrue(tokens.get(0).isIdentifier());
+    }
+
+    @Test
+    void testIsOperator() {
+        List<Token> tokens = Token.tokenize("* + / - q");
+        
+        assertTrue(tokens.get(0).isOperator());
+        assertTrue(tokens.get(1).isOperator());
+        assertTrue(tokens.get(2).isOperator());
+        assertTrue(tokens.get(3).isOperator());
+        assertFalse(tokens.get(4).isOperator());
+    }
+
+    @Test
+    void testSymbols() {
+        List<Token> tokens = Token.tokenize("()-");
+
+        assertTrue(tokens.get(0).isOpeningParentesis());
+        assertTrue(tokens.get(1).isClosingParentesis());
+        assertTrue(tokens.get(2).isNegative());
     }
 }
