@@ -2,11 +2,27 @@ package com.sqbrains.arithmetic;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 class ExpressionTest {
 
     @Test
-    void testCompilation() {
-        Expression expression = new Expression();
-    }
+    void testExpressionCreation() {
+        assertThrows(InvalidExpressionException.class, () -> new Expression(""));
+        assertThrows(InvalidExpressionException.class, () -> new Expression("-"));
+        assertThrows(InvalidExpressionException.class, () -> new Expression("3+"));
 
+        Expression expression = new Expression("33");
+        assertEquals(33.0f, expression.getTokens().get(0).getLexeme());
+
+        expression = new Expression("-33");
+        assertEquals(Token.MINUS, expression.getTokens().get(0).getLexeme());
+        assertNotEquals(Token.PLUS, expression.getTokens().get(0).getLexeme());
+        assertEquals(33.0f, expression.getTokens().get(1).getLexeme());
+
+        expression = new Expression("+33");
+        assertEquals(Token.PLUS, expression.getTokens().get(0).getLexeme());
+        assertNotEquals(Token.MINUS, expression.getTokens().get(0).getLexeme());
+        assertEquals(33.0f, expression.getTokens().get(1).getLexeme());
+    }
 }

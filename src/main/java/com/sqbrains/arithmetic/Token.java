@@ -12,8 +12,8 @@ public class Token<T> {
     private static final Character PARENTESIS_CLOSE = ')';
     private static final Character DIVIDE = '/';
     private static final Character MULTIPLY = '*';
-    private static final Character MINUS = '-';
-    private static final Character PLUS = '+';
+    public static final Character MINUS = '-';
+    public static final Character PLUS = '+';
 
     private static Character[] symbols = {MULTIPLY, DIVIDE, PLUS, MINUS, PARENTESIS_OPEN, PARENTESIS_CLOSE};
     private static final Pattern numberPattern = Pattern.compile("\\d+(\\.\\d*)?");
