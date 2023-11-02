@@ -30,7 +30,7 @@ class ExpressionTest {
     @Test
     void testExpressionCompilation() {
         Expression expression = new Expression("6 / 2 * (2 + 1)");
-        assertNull(expression.compile());
+        assertEquals(6.0f, expression.compile().getLexeme());
 
         //expression = new Expression("(4 + 2) * ((-1 + 2) / 2)");
         //assertEquals(4.0f, expression.compile().getLexeme());

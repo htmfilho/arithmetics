@@ -50,6 +50,10 @@ public class Expression {
             root = compile(currentPosition + 1);
         }
 
+        if (root == null) {
+            root = current;
+        }
+
         return root;
     }
 }
