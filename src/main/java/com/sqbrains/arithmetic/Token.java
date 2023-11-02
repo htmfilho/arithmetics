@@ -10,9 +10,12 @@ public class Token<T> {
 
     private static final Character PARENTESIS_OPEN = '(';
     private static final Character PARENTESIS_CLOSE = ')';
-    private static final Character NEGATIVE = '-';
+    private static final Character DIVIDE = '/';
+    private static final Character MULTIPLY = '*';
+    private static final Character MINUS = '-';
+    private static final Character PLUS = '+';
 
-    private static Character[] symbols = {'*', '/', '+', NEGATIVE, PARENTESIS_OPEN, PARENTESIS_CLOSE};
+    private static Character[] symbols = {MULTIPLY, DIVIDE, PLUS, MINUS, PARENTESIS_OPEN, PARENTESIS_CLOSE};
     private static final Pattern numberPattern = Pattern.compile("\\d+(\\.\\d*)?");
     private static final Pattern identifierPattern = Pattern.compile("[a-zA-Z]+(_?[0-9a-zA-Z])*");
 
@@ -32,7 +35,7 @@ public class Token<T> {
 
     public boolean isOperator() {
         if (this.lexeme instanceof Character) {
-            return lexeme.equals('*') || lexeme.equals('/') || lexeme.equals('+') || lexeme.equals('-');
+            return lexeme.equals(MULTIPLY) || lexeme.equals(DIVIDE) || lexeme.equals(PLUS) || lexeme.equals(MINUS);
         }
         
         return false;
@@ -47,7 +50,7 @@ public class Token<T> {
     }
 
     public boolean isNegative() {
-        return this.lexeme.equals(NEGATIVE);
+        return this.lexeme.equals(MINUS);
     }
  
     public static List<Token> tokenize(String expression) {
