@@ -28,9 +28,28 @@ public class Expression {
                  !this.tokens.get(1).isNumber()) {
             throw new InvalidExpressionException();
         }
+
+        if (this.tokens.get(0).isClosingParentesis()) {
+            throw new InvalidExpressionException();
+        }
     }
 
     public List<Token> getTokens() {
         return this.tokens;
+    }
+
+    public Token compile() {
+        return compile(0);
+    }
+
+    private Token compile(int currentPosition) {
+        Token current = this.tokens.get(currentPosition);
+        Token root = null;
+
+        if (current.isOpeningParentesis() && currentPosition == 0) {
+            root = compile(currentPosition + 1);
+        }
+
+        return root;
     }
 }
