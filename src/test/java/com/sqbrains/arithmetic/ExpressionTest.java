@@ -11,8 +11,7 @@ class ExpressionTest {
         assertThrows(InvalidExpressionException.class, () -> new Expression(""));
         assertThrows(InvalidExpressionException.class, () -> new Expression("-"));
         assertThrows(InvalidExpressionException.class, () -> new Expression("3+"));
-        assertThrows(InvalidExpressionException.class, () -> new Expression(")3+"));
-
+        
         Expression expression = new Expression("33");
         assertEquals(33.0f, expression.getTokens().get(0).getLexeme());
 
@@ -33,5 +32,6 @@ class ExpressionTest {
         assertEquals(6.0f, expression.compile().getLexeme());
 
         assertThrows(InvalidExpressionException.class, () -> new Expression("() * ((-1 + 2) / 2)").compile());
+        assertThrows(InvalidExpressionException.class, () -> new Expression(")3+").compile());
     }
 }

@@ -28,10 +28,6 @@ public class Expression {
                  !this.tokens.get(1).isNumber()) {
             throw new InvalidExpressionException();
         }
-
-        if (this.tokens.get(0).isClosingParentesis()) {
-            throw new InvalidExpressionException();
-        }
     }
 
     public List<Token> getTokens() {
