@@ -32,7 +32,6 @@ class ExpressionTest {
         Expression expression = new Expression("6 / 2 * (2 + 1)");
         assertEquals(6.0f, expression.compile().getLexeme());
 
-        //expression = new Expression("(4 + 2) * ((-1 + 2) / 2)");
-        //assertEquals(4.0f, expression.compile().getLexeme());
+        assertThrows(InvalidExpressionException.class, () -> new Expression("() * ((-1 + 2) / 2)").compile());
     }
 }
