@@ -44,7 +44,8 @@ public class Expression {
 
         // In case the next token after the opening parenthesis is a closing parenthesis
         if (current.isClosingParentesis()) {
-            throw new InvalidExpressionException();        }
+            throw new InvalidExpressionException();        
+        }
 
         if (current.isOpeningParentesis() && currentPosition == 0) {
             root = compile(currentPosition + 1);
@@ -53,6 +54,10 @@ public class Expression {
         if (root == null) {
             root = current;
         }
+
+        if (current.isNegative()) {
+            current.addZeroChild();
+        }        
 
         return root;
     }

@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class Token<T> {
-    private Token() {}
-
     private static final Character PARENTESIS_OPEN = '(';
     private static final Character PARENTESIS_CLOSE = ')';
     private static final Character DIVIDE = '/';
@@ -20,9 +18,38 @@ public class Token<T> {
     private static final Pattern identifierPattern = Pattern.compile("[a-zA-Z]+(_?[0-9a-zA-Z])*");
 
     private T lexeme;
+    private Token[] children;
+
+    private Token() {
+        this.children = new Token[2];
+    }
+
+    private Token(T lexeme) {
+        this.lexeme = lexeme;
+    }
 
     public T getLexeme() {
         return lexeme;
+    }
+
+    public void addChild(Token token) {
+        if (this.children[0] == null) {
+            this.children[0] = token;
+        } else {
+            this.children[1] = token;
+        }
+    }
+
+    public void addZeroChild() {
+        this.children[0] = new Token<Float>(0f);
+    }
+
+    public Token getLeftChild() {
+        return this.children[0];
+    }
+
+    public Token getRightChild() {
+        return this.children[1];
     }
 
     public boolean isNumber() {

@@ -117,4 +117,19 @@ class TokenTest {
         assertTrue(tokens.get(1).isClosingParentesis());
         assertTrue(tokens.get(2).isNegative());
     }
+
+    @Test
+    void testChildren() {
+        List<Token> tokens = Token.tokenize("-3");
+        tokens.get(0).addZeroChild();
+        tokens.get(0).addChild(tokens.get(1));
+        assertEquals(0.0f, tokens.get(0).getLeftChild().getLexeme());
+        assertEquals(3f, tokens.get(0).getRightChild().getLexeme());
+
+        tokens = Token.tokenize("3+4");
+        tokens.get(1).addChild(tokens.get(0));
+        tokens.get(1).addChild(tokens.get(2));
+        assertEquals(3f, tokens.get(1).getLeftChild().getLexeme());
+        assertEquals(4f, tokens.get(1).getRightChild().getLexeme());
+    }
 }

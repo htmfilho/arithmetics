@@ -28,10 +28,16 @@ class ExpressionTest {
 
     @Test
     void testExpressionCompilation() {
-        Expression expression = new Expression("6 / 2 * (2 + 1)");
+        Expression expression = new Expression("(6 / 2) * (2 + 1)");
         assertEquals(6.0f, expression.compile().getLexeme());
 
         assertThrows(InvalidExpressionException.class, () -> new Expression("() * ((-1 + 2) / 2)").compile());
         assertThrows(InvalidExpressionException.class, () -> new Expression(")3+").compile());
+    }
+
+    @Test
+    void testExpressionCompilationWithNegativeToken() {
+        Expression expression = new Expression("-3");
+        assertEquals(0f, expression.compile().getLeftChild().getLexeme());
     }
 }
