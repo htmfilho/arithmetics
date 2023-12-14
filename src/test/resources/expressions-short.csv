@@ -1,0 +1,10 @@
+expression, tokens
+"6 / 2 * (-2 + 1)", 10
+"([Cust_RSQ_1]+[Cust_RSQ_2]+[Cust_RSQ_3]+[Cust_RSQ_4]+[Cust_RSQ_5]+[Cust_RSQ_5a]+[Cust_RSQ_5b]+[Cust_RSQ_5c]+[Cust_RSQ_6]+[Cust_RSQ_7]+[Cust_RSQ_8]+[Cust_RSQ_9])*([Cust_CI_1]+1.0)+([Cust_INST_MT])", 20
+"[Cust_A_1]+[Cust_A_2]+[Cust_A_3]+[Cust_A_4]+[Cust_A_5]+[Cust_A_6]+[Cust_A_7]+[Cust_A_8]+[Cust_A_9]+[Cust_A_10]+[Cust_A_11]+[Cust_B_12]+[Cust_B_13]+[Cust_B_14]+[Cust_B_15]+[Cust_B_16]+[Cust_B_17]+[Cust_B_18]+[Cust_B_19]+[Cust_B_20]+[Cust_B_21]+[Cust_C_22]+[Cust_C_23]+[Cust_C_24]+[Cust_D_25]+[Cust_D_26]+[Cust_D_27]+[Cust_D_28]+[Cust_D_29]/203", 20
+"(([Cust_3_aL]+[Cust_3_aR])/2)+(([Cust_3_b1]+[Cust_3_b2]+[Cust_3_b3]+[Cust_3_b4])/4)+[Cust_3_c]", 20
+"([Cust_RSQ_1]+[Cust_RSQ_2]+[Cust_RSQ_3]+[Cust_RSQ_4]+[Cust_RSQ_5]+[Cust_RSQ_5a]+[Cust_RSQ_5b]+[Cust_RSQ_5c]+[Cust_RSQ_6]+[Cust_RSQ_7]+[Cust_RSQ_8]+[Cust_RSQ_9])*([Cust_CI_1]+1.0)+([Cust_INST_MT])", 20
+"[Cust_A_1]+[Cust_A_2]+[Cust_A_3]+[Cust_A_4]+[Cust_A_5]+[Cust_A_6]+[Cust_A_7]+[Cust_A_8]+[Cust_A_9]+[Cust_A_10]+[Cust_A_11]+[Cust_B_12]+[Cust_B_13]+[Cust_B_14]+[Cust_B_15]+[Cust_B_16]+[Cust_B_17]+[Cust_B_18]+[Cust_B_19]+[Cust_B_20]+[Cust_B_21]+[Cust_C_22]+[Cust_C_23]+[Cust_C_24]+[Cust_D_25]+[Cust_D_26]+[Cust_D_27]+[Cust_D_28]+[Cust_D_29]/203", 20
+"([Cust_RSQ_1]+[Cust_RSQ_2]+[Cust_RSQ_3]+[Cust_RSQ_4]+[Cust_RSQ_5]+[Cust_RSQ_5a]+[Cust_RSQ_5b]+[Cust_RSQ_5c]+[Cust_RSQ_6]+[Cust_RSQ_7]+[Cust_RSQ_8]+[Cust_RSQ_9])*([Cust_CI_1]+1.0)+([Cust_INST_MT])", 20
+"([Cust_RSQ_1]+[Cust_RSQ_2]+[Cust_RSQ_3]+[Cust_RSQ_4]+[Cust_RSQ_5]+[Cust_RSQ_5a]+[Cust_RSQ_5b]+[Cust_RSQ_5c]+[Cust_RSQ_6]+[Cust_RSQ_7]+[Cust_RSQ_8]+[Cust_RSQ_9])*([Cust_CI_1]+1.0)+([Cust_INST_MT])", 20
+"([Cust_1_A]+[Cust_2_B]+[Cust_3_c]+[Cust_4_d]+[Cust_5_e])", 20

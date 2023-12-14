@@ -16,13 +16,13 @@ class ExpressionTest {
         assertEquals(33.0f, expression.getTokens().get(0).getLexeme());
 
         expression = new Expression("-33");
-        assertEquals(Token.MINUS, expression.getTokens().get(0).getLexeme());
-        assertNotEquals(Token.PLUS, expression.getTokens().get(0).getLexeme());
+        assertEquals(TokenPattern.MINUS, expression.getTokens().get(0).getLexeme());
+        assertNotEquals(TokenPattern.PLUS, expression.getTokens().get(0).getLexeme());
         assertEquals(33.0f, expression.getTokens().get(1).getLexeme());
 
         expression = new Expression("+33");
-        assertEquals(Token.PLUS, expression.getTokens().get(0).getLexeme());
-        assertNotEquals(Token.MINUS, expression.getTokens().get(0).getLexeme());
+        assertEquals(TokenPattern.PLUS, expression.getTokens().get(0).getLexeme());
+        assertNotEquals(TokenPattern.MINUS, expression.getTokens().get(0).getLexeme());
         assertEquals(33.0f, expression.getTokens().get(1).getLexeme());
     }
 

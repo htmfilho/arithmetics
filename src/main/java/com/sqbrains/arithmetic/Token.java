@@ -3,20 +3,8 @@ package com.sqbrains.arithmetic;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class Token<T> {
-    private static final Character PARENTESIS_OPEN = '(';
-    private static final Character PARENTESIS_CLOSE = ')';
-    private static final Character DIVIDE = '/';
-    private static final Character MULTIPLY = '*';
-    public static final Character MINUS = '-';
-    public static final Character PLUS = '+';
-
-    private static Character[] symbols = {MULTIPLY, DIVIDE, PLUS, MINUS, PARENTESIS_OPEN, PARENTESIS_CLOSE};
-    private static final Pattern numberPattern = Pattern.compile("\\d+(\\.\\d*)?");
-    private static final Pattern identifierPattern = Pattern.compile("[a-zA-Z]+(_?[0-9a-zA-Z])*");
-
     private T lexeme;
     private Token[] children;
 
@@ -62,25 +50,29 @@ public class Token<T> {
 
     public boolean isOperator() {
         if (this.lexeme instanceof Character) {
-            return lexeme.equals(MULTIPLY) || lexeme.equals(DIVIDE) || lexeme.equals(PLUS) || lexeme.equals(MINUS);
+            return lexeme.equals(TokenPattern.MULTIPLY) || lexeme.equals(TokenPattern.DIVIDE) || lexeme.equals(TokenPattern.PLUS) || lexeme.equals(TokenPattern.MINUS);
         }
         
         return false;
     }
 
     public boolean isOpeningParentesis() {
-        return this.lexeme.equals(PARENTESIS_OPEN);
+        return this.lexeme.equals(TokenPattern.PARENTESIS_OPEN);
     }
 
     public boolean isClosingParentesis() {
-        return this.lexeme.equals(PARENTESIS_CLOSE);
+        return this.lexeme.equals(TokenPattern.PARENTESIS_CLOSE);
     }
 
     public boolean isNegative() {
-        return this.lexeme.equals(MINUS);
+        return this.lexeme.equals(TokenPattern.MINUS);
+    }
+
+    public static List<Token> tokenize(String expression) {
+        return tokenize(expression, new DefaultTokenPattern());
     }
  
-    public static List<Token> tokenize(String expression) {
+    public static List<Token> tokenize(String expression, TokenPattern tokenPattern) {
         if (expression == null) {
             return Collections.emptyList();
         }
@@ -97,7 +89,7 @@ public class Token<T> {
         while (pos < cExpression.length) {
             lexeme.append(cExpression[pos]);
 
-            if (Token.isSymbol(lexeme.toString())) {
+            if (tokenPattern.isSymbol(lexeme.toString())) {
                 if (symbolToken == null)
                     symbolToken = new Token<>();
 
@@ -110,7 +102,7 @@ public class Token<T> {
                 lexeme = new StringBuilder();
             }
 
-            if (Token.isNumber(lexeme.toString())) {
+            if (tokenPattern.isNumber(lexeme.toString())) {
                 if (numberToken == null)
                     numberToken = new Token<>();
 
@@ -123,7 +115,7 @@ public class Token<T> {
                 lexeme = new StringBuilder();
             }
 
-            if (Token.isIdentifier(lexeme.toString())) {
+            if (tokenPattern.isIdentifier(lexeme.toString())) {
                 if (identifierToken == null)
                     identifierToken = new Token<>();
 
@@ -136,7 +128,7 @@ public class Token<T> {
             }
 
             if (lexeme.length() > cExpression.length)
-                throw new UnrecognizedTokenException();
+                throw new UnrecognizedTokenException(lexeme.toString());
         }
 
         if (symbolToken != null) 
@@ -149,42 +141,5 @@ public class Token<T> {
             tokens.add(identifierToken);
 
         return tokens;
-    }
-
-    public static boolean isSymbol(String lexeme) {
-        if (lexeme == null) {
-            return false;
-        }
-
-        lexeme = lexeme.trim();
-
-        if(lexeme.length() != 1) {
-            return false;
-        }
-
-        for (Character s: symbols) {
-            if (s.equals(lexeme.toCharArray()[0])) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public static boolean isNumber(String lexeme) {
-        if (lexeme == null) {
-            return false;
-        }
-
-        lexeme = lexeme.trim();
-        return numberPattern.matcher(lexeme).matches();
-    }
-
-    public static boolean isIdentifier(String lexeme) {
-        if (lexeme == null) {
-            return false;
-        }
-        lexeme = lexeme.trim();
-        return identifierPattern.matcher(lexeme).matches();
     }
 }

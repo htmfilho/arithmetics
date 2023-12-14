@@ -1,8 +1,11 @@
 package com.sqbrains.arithmetic;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -49,51 +52,12 @@ class TokenTest {
 
     @Test
     void testIsNumber() {
-        assertTrue(Token.isNumber("439"));
-        assertTrue(Token.isNumber("0.439"));
-        assertTrue(Token.isNumber("345."));
-
-        assertFalse(Token.isNumber(null));
-        assertFalse(Token.isNumber(""));
-        assertFalse(Token.isNumber("+"));
-        assertFalse(Token.isNumber("abc1"));
-        assertFalse(Token.isNumber("123+"));
-        assertFalse(Token.isNumber("123 +"));
-        assertFalse(Token.isNumber("123qw"));
-
         List<Token> tokens = Token.tokenize("6");
         assertTrue(tokens.get(0).isNumber());
     }
 
     @Test
-    void testIsSymbol() {
-        assertTrue(Token.isSymbol("+"));
-        assertTrue(Token.isSymbol("-"));
-        assertTrue(Token.isSymbol("*"));
-        assertTrue(Token.isSymbol("/"));
-        assertTrue(Token.isSymbol("("));
-        assertTrue(Token.isSymbol(")"));
-        assertTrue(Token.isSymbol("+ "));
-
-        assertFalse(Token.isSymbol(null));
-        assertFalse(Token.isSymbol(""));
-        assertFalse(Token.isSymbol("++"));
-        assertFalse(Token.isSymbol("kio"));
-        assertFalse(Token.isSymbol("9.8"));
-    }
-
-    @Test
     void testIsIdentifier() {
-        assertTrue(Token.isIdentifier("score_1"));
-
-        assertFalse(Token.isIdentifier(null));
-        assertFalse(Token.isIdentifier(""));
-        assertFalse(Token.isIdentifier("22.3"));
-        assertFalse(Token.isIdentifier("+"));
-        assertFalse(Token.isIdentifier("asd 1"));
-        assertFalse(Token.isIdentifier("asd_"));
-        assertFalse(Token.isIdentifier("asd+"));
-
         List<Token> tokens = Token.tokenize("ty");
         assertTrue(tokens.get(0).isIdentifier());
     }
@@ -131,5 +95,54 @@ class TokenTest {
         tokens.get(1).addChild(tokens.get(2));
         assertEquals(3f, tokens.get(1).getLeftChild().getLexeme());
         assertEquals(4f, tokens.get(1).getRightChild().getLexeme());
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/expressions-short.csv", numLinesToSkip = 1)
+    void testExpressionsFromTheField(String expression, int size) {
+        List<Token> tokens = Token.tokenize(expression, new TokenPattern() {
+            private Character[] symbols = {MULTIPLY, DIVIDE, PLUS, MINUS, PARENTESIS_OPEN, PARENTESIS_CLOSE};
+    
+            private final Pattern numberPattern = Pattern.compile("\\d+(\\.\\d*)?");
+            private final Pattern identifierPattern = Pattern.compile("\\[[a-zA-Z]+(_?[0-9a-zA-Z])*\\]");
+
+            public boolean isSymbol(String lexeme) {
+                if (lexeme == null) {
+                    return false;
+                }
+
+                lexeme = lexeme.trim();
+
+                if(lexeme.length() != 1) {
+                    return false;
+                }
+
+                for (Character s: symbols) {
+                    if (s.equals(lexeme.toCharArray()[0])) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            public boolean isNumber(String lexeme) {
+                if (lexeme == null) {
+                    return false;
+                }
+
+                lexeme = lexeme.trim();
+                return numberPattern.matcher(lexeme).matches();
+            }
+
+            public boolean isIdentifier(String lexeme) {
+                if (lexeme == null) {
+                    return false;
+                }
+                lexeme = lexeme.trim();
+                return identifierPattern.matcher(lexeme).matches();
+            }
+        });
+        assertEquals(size, tokens.size());
     }
 }

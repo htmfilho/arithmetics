@@ -23,8 +23,8 @@ public class Expression {
         // If there are only 2 tokens then it can only be a negative or positive number.
         // Everything else is invalid.
         if (this.tokens.size() == 2 && 
-                (!this.tokens.get(0).getLexeme().equals(Token.MINUS) ||
-                 !this.tokens.get(0).getLexeme().equals(Token.PLUS)) &&
+                (!this.tokens.get(0).getLexeme().equals(TokenPattern.MINUS) ||
+                 !this.tokens.get(0).getLexeme().equals(TokenPattern.PLUS)) &&
                  !this.tokens.get(1).isNumber()) {
             throw new InvalidExpressionException();
         }
